@@ -4,18 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Standalone link-in-bio page for Dôvera Lab (dental laboratory in Mérida, Yucatán), linked from the @dovera.lab Instagram profile. Extracted from the main site `dovera-lab-web` (`app/(links)/links`) into its own repo (`IngeniaTex/dovera-lab-links`, production branch `main`). Next.js 15 App Router as a static export, React 19, TypeScript 5, CSS Modules. Hosted on Cloudflare Workers static assets. Copy is in Spanish.
+Standalone link-in-bio page for Dôvera Lab (dental laboratory in Mérida, Yucatán), linked from the @dovera.lab Instagram profile. Extracted from the main site `dovera-lab-web` (`app/(links)/links`) into its own repo (`IngeniaTex/dovera-lab-links`, production branch `main`). Next.js 15 App Router, React 19, TypeScript 5, CSS Modules. Hosted on Vercel as a regular Next.js project. Copy is in Spanish.
 
 ## Commands
 
-Node 22+ is required (Wrangler). `.nvmrc` = 22. If the default Node is older, prefix commands with `~/.nvm/versions/node/v22.*/bin`.
-
 ```bash
-npm run dev      # next dev, http://localhost:3000
-npm run build    # static export to ./out; also the type-check step
-npm run start    # wrangler dev serving ./out, http://localhost:8787 (production-like)
-npm run preview  # build + wrangler dev
-npm run deploy   # build + wrangler deploy
+npm run dev      # http://localhost:3000
+npm run build    # production build; also the type-check step
+npm run start
 npm run lint
 ```
 
@@ -25,16 +21,13 @@ No tests, no environment variables. TypeScript is pinned to 5.x because TypeScri
 
 ## Hosting
 
-- `next.config.mjs` sets `output: "export"` and `images.unoptimized: true`.
-- `wrangler.jsonc` (Worker `dovera-lab-links`, which must match the dashboard name) serves `./out` with `html_handling: auto-trailing-slash`, `not_found_handling: 404-page` and observability on. It has `workers_dev: true` and no custom domain yet.
-- Deploys run through Cloudflare Workers Builds on every merge to `main` (`npm run build`, then `npx wrangler deploy`). Work on feature branches and open PRs; never push to `main` directly.
-- `public/_redirects` has `/links` → `/` (301). `public/_headers` makes `/_next/static/*` immutable. Put new redirects or headers there: `redirects()`/`headers()` in `next.config.mjs` don't work with a static export.
-- Static export forbids API routes, middleware, `headers()`/`cookies()`, ISR, and server actions.
-- Custom domain (pending): move the doveralab.com DNS from Wix to Cloudflare first, keeping the Wix records and the GoDaddy MX/SPF. Then add `"routes": [{ "pattern": "links.doveralab.com", "custom_domain": true }]` and update `pageUrl`.
+- Vercel, as a Next.js project connected to `IngeniaTex/dovera-lab-links`. Merges to `main` deploy to production and PRs get preview deployments. Work on feature branches and open PRs; never push to `main` directly.
+- The site briefly used a Cloudflare Workers static export (PR #1). That config was removed, so server features (image optimization, `redirects()` in `next.config.mjs`) are available again.
+- Domain: the `*.vercel.app` URL for now. When the final domain is added in Vercel → Settings → Domains, update `pageUrl` in `data/links.ts`.
 
 ## Architecture
 
-- One route: `app/page.tsx` at `/`. `/links` redirects to `/` via `public/_redirects`.
+- One route: `app/page.tsx` at `/`. `next.config.mjs` redirects `/links` → `/` (308).
 - All content is in `data/links.ts`; keep copy there, not in JSX. Hrefs starting with `/` point to the main site and go through `resolveHref()`, which prefixes `links.mainSite`. `mailto:` links open in place; everything else opens in a new tab so Instagram's in-app browser keeps this page.
 - An empty `contact.whatsapp` switches the lime CTA to "Escríbenos" → main site `/#contacto`.
 - `pageUrl` is the `metadataBase` for canonical and Open Graph URLs. It is a placeholder (`https://links.doveralab.com`) until the final domain is chosen.

@@ -5,8 +5,8 @@ móvil con el escaneo a domicilio destacado, el botón de WhatsApp, los enlaces 
 
 Separada del sitio principal (`dovera-lab-web`) para vivir en su propio repositorio y dominio.
 
-- **Stack:** Next.js 15 (App Router, exportación estática), React 19, TypeScript 5, CSS Modules, `lucide-react`
-- **Hosting:** Cloudflare Workers (static assets), por ahora en `*.workers.dev`
+- **Stack:** Next.js 15 (App Router), React 19, TypeScript 5, CSS Modules, `lucide-react`
+- **Hosting:** Vercel, como proyecto Next.js
 - **Diseño:** manual de identidad de Dôvera (paleta, logotipo, sticker del sello). Usa DM Mono en lugar de
   Apercu Mono Pro, que requiere licencia.
 
@@ -36,8 +36,8 @@ Todo está en `data/links.ts`:
 - **`items`:** los botones. Cada uno tiene `label`, `href`, `icon` (`send`, `grid`, `scan`, `pin`), `accent`
   (`coral`, `orange`, `lime`, `gray`) y una etiqueta opcional `tag`.
 
-La ruta `/links` redirige a `/` (301), por si alguien llega con la dirección anterior. La regla está en
-`public/_redirects`.
+La ruta `/links` redirige a `/` (308), por si alguien llega con la dirección anterior. La regla está en
+`next.config.mjs`.
 
 ### Pendiente de confirmar con el cliente
 
@@ -46,15 +46,11 @@ La ruta `/links` redirige a `/` (301), por si alguien llega con la dirección an
 
 ## Scripts
 
-Requiere **Node 22+** (Wrangler). Con nvm: `nvm use`, que lee `.nvmrc`.
-
 ```bash
 npm install
-npm run dev       # desarrollo con Next, http://localhost:3000
-npm run build     # exportación estática a ./out
-npm run start     # sirve ./out con wrangler dev, http://localhost:8787 (igual que producción)
-npm run preview   # build + wrangler dev
-npm run deploy    # build + wrangler deploy (normalmente lo hace Cloudflare al hacer merge a main)
+npm run dev     # http://localhost:3000
+npm run build
+npm run start   # sirve el build de producción
 npm run lint
 ```
 
@@ -63,32 +59,11 @@ y vuelve a levantar dev.
 
 No usa variables de entorno.
 
-## Hosting (Cloudflare Workers)
+## Hosting (Vercel)
 
-- **Configuración:** `next.config.mjs` usa `output: "export"` e `images: { unoptimized: true }`. `wrangler.jsonc` sirve
-  `./out` como assets estáticos, con estas opciones:
-  - `auto-trailing-slash`: `/index.html` lleva a `/`.
-  - `404-page`: las rutas que no existen responden 404 con `out/404.html`.
-  - `observability`: activa los logs del Worker.
-- **Encabezados y redirecciones:** `public/_headers` pone caché inmutable de un año en `/_next/static/*`.
-  `public/_redirects` tiene la redirección de `/links`.
-- **Despliegue:** Cloudflare Workers Builds conectado a `IngeniaTex/dovera-lab-links`. Cada merge a `main` compila
-  (`npm run build`) y publica (`npx wrangler deploy`). El nombre del Worker en el dashboard debe ser
-  `dovera-lab-links`, igual que `name` en `wrangler.jsonc`.
-- **Dominio:** por ahora solo `*.workers.dev`. Para usar `links.doveralab.com` primero hay que mover el DNS de
-  doveralab.com de Wix a Cloudflare (conservando los registros de Wix y el correo de GoDaddy). Luego se agrega
-  `"routes": [{ "pattern": "links.doveralab.com", "custom_domain": true }]` en `wrangler.jsonc` y se actualiza
-  `pageUrl` en `data/links.ts`.
-
-### Restricciones de la exportación estática
-
-Al ser exportación estática, no se puede usar nada que necesite servidor en tiempo de ejecución:
-
-- API routes
-- `middleware`
-- `headers()` / `cookies()`
-- ISR o `revalidate`
-- server actions
-- `redirects()` / `rewrites()` en `next.config.mjs`: usa `public/_redirects` y `public/_headers` en su lugar
-
-Las imágenes de `next/image` se sirven sin optimizar.
+- **Despliegue:** proyecto Next.js en Vercel conectado a `IngeniaTex/dovera-lab-links`. Cada merge a `main` publica
+  producción y cada PR genera un preview. No necesita configuración extra: Vercel detecta Next.js.
+- **Imágenes:** `next/image` usa la optimización de Vercel (AVIF/WebP).
+- **Redirección:** `/links` → `/` está en `next.config.mjs`.
+- **Dominio:** por ahora la URL `*.vercel.app`. Cuando se elija el dominio final, agrégalo en Vercel → Settings →
+  Domains y actualiza `pageUrl` en `data/links.ts`.

@@ -18,6 +18,3 @@ npm-debug.log*
 # vercel
 .vercel
 
-# cloudflare
-.wrangler/
-.dev.vars
