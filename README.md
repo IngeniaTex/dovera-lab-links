@@ -28,8 +28,8 @@ public/img/hero.jpg foto del banner
 
 Todo está en `data/links.ts`:
 
-- **`pageUrl`:** dominio final de esta página. Cámbialo antes de publicar, porque se usa en los metadatos y en la
-  imagen para compartir.
+- **`pageUrl`:** dirección pública de esta página, usada en la URL canónica y en la imagen para compartir. Hoy es
+  la URL temporal de Vercel; cámbiala cuando se conecte el dominio final.
 - **`mainSite`:** dominio del sitio principal. Los enlaces que empiezan con `/` (por ejemplo `/#servicios`) se
   convierten en `https://www.doveralab.com/#servicios`.
 - **`contact.whatsapp`:** si se deja vacío, el botón lima dice "Escríbenos" y lleva al formulario del sitio principal.
@@ -65,5 +65,5 @@ No usa variables de entorno.
   producción y cada PR genera un preview. No necesita configuración extra: Vercel detecta Next.js.
 - **Imágenes:** `next/image` usa la optimización de Vercel (AVIF/WebP).
 - **Redirección:** `/links` → `/` está en `next.config.mjs`.
-- **Dominio:** por ahora la URL `*.vercel.app`. Cuando se elija el dominio final, agrégalo en Vercel → Settings →
+- **Dominio:** por ahora la URL temporal https://dovera-lab-links.vercel.app. Cuando se elija el dominio final, agrégalo en Vercel → Settings →
   Domains y actualiza `pageUrl` en `data/links.ts`.
