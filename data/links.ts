@@ -4,8 +4,8 @@
  * Fields left as "" are hidden by the page.
  */
 export const links = {
-  // Public URL of this page (metadata, Open Graph). Change it to the final domain before deploying.
-  pageUrl: "https://links.doveralab.com",
+  // Public URL of this page (canonical, Open Graph). Temporary Vercel URL; change it when the final domain is added.
+  pageUrl: "https://dovera-lab-links.vercel.app",
   // Main website; relative hrefs below ("/#servicios") are resolved against it.
   mainSite: "https://www.doveralab.com",
 

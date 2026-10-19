@@ -23,14 +23,14 @@ No tests, no environment variables. TypeScript is pinned to 5.x because TypeScri
 
 - Vercel, as a Next.js project connected to `IngeniaTex/dovera-lab-links`. Merges to `main` deploy to production and PRs get preview deployments. Work on feature branches and open PRs; never push to `main` directly.
 - The site briefly used a Cloudflare Workers static export (PR #1). That config was removed, so server features (image optimization, `redirects()` in `next.config.mjs`) are available again.
-- Domain: the `*.vercel.app` URL for now. When the final domain is added in Vercel → Settings → Domains, update `pageUrl` in `data/links.ts`.
+- Domain: https://dovera-lab-links.vercel.app for now (temporary). When the final domain is added in Vercel → Settings → Domains, update `pageUrl` in `data/links.ts`.
 
 ## Architecture
 
 - One route: `app/page.tsx` at `/`. `next.config.mjs` redirects `/links` → `/` (308).
 - All content is in `data/links.ts`; keep copy there, not in JSX. Hrefs starting with `/` point to the main site and go through `resolveHref()`, which prefixes `links.mainSite`. `mailto:` links open in place; everything else opens in a new tab so Instagram's in-app browser keeps this page.
 - An empty `contact.whatsapp` switches the lime CTA to "Escríbenos" → main site `/#contacto`.
-- `pageUrl` is the `metadataBase` for canonical and Open Graph URLs. It is a placeholder (`https://links.doveralab.com`) until the final domain is chosen.
+- `pageUrl` is the `metadataBase` for canonical and Open Graph URLs. It is the temporary Vercel URL until the final domain is chosen.
 - Styles live in `app/page.module.css`: the identity-manual palette as `--dv-*` variables on `.page`, and a 390px column centred on black that should fit one 390×844 screen. `globals.css` only resets box-sizing and sets the black background.
 - Font: DM Mono via `next/font/google` as `--dv-font`, standing in for the manual's Apercu Mono Pro.
 - Assets: `public/brand/*.svg` are vectors extracted from the identity manual PDF; don't redraw or recolour them. `public/img/hero.jpg` is shown with `next/image`.
