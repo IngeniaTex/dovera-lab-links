@@ -28,7 +28,7 @@ No tests, no environment variables. TypeScript is pinned to 5.x because TypeScri
 ## Architecture
 
 - One route: `app/page.tsx` at `/`. `next.config.mjs` redirects `/links` → `/` (308).
-- All content is in `data/links.ts`; keep copy there, not in JSX. Hrefs starting with `/` point to the main site and go through `resolveHref()`, which prefixes `links.mainSite`. `mailto:` links open in place; everything else opens in a new tab so Instagram's in-app browser keeps this page.
+- All content is in `data/links.ts`; keep copy there, not in JSX. Hrefs starting with `/` point to the main site and go through `resolveHref()`, which prefixes `links.mainSite`; the exception is `/docs/`, which this page serves from `public/docs/` (the "Servicios y precios" PDF, replaced in place under the same name). `mailto:` links open in place; everything else opens in a new tab so Instagram's in-app browser keeps this page.
 - An empty `contact.whatsapp` switches the lime CTA to "Escríbenos" → main site `/#contacto`.
 - `pageUrl` is the `metadataBase` for canonical and Open Graph URLs. It is the temporary Vercel URL until the final domain is chosen.
 - Styles live in `app/page.module.css`: the identity-manual palette as `--dv-*` variables on `.page`, and a 390px column centred on black that should fit one 390×844 screen. `globals.css` only resets box-sizing and sets the black background.
