@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { ArrowUpRight, LayoutGrid, Mail, MapPin, MessageCircle, ScanLine, Send, type LucideIcon } from "lucide-react";
+import { ArrowUpRight, FileText, Globe, Mail, MapPin, MessageCircle, Send, type LucideIcon } from "lucide-react";
 import { links, resolveHref } from "@/data/links";
 import styles from "./page.module.css";
 
-const icons: Record<string, LucideIcon> = { send: Send, grid: LayoutGrid, scan: ScanLine, pin: MapPin };
+const icons: Record<string, LucideIcon> = { send: Send, file: FileText, globe: Globe, pin: MapPin };
 
-// Everything except mailto: opens in a new tab (main site, WhatsApp, Maps), so Instagram's in-app browser keeps this page.
+// Everything except mailto: opens in a new tab (main site, PDF, WhatsApp, Maps), so Instagram's in-app browser keeps this page.
 const newTab = (href: string) => (href.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" });
 
 export default function LinksPage() {

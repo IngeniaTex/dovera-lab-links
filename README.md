@@ -22,6 +22,7 @@ app/
 data/links.ts       todo el contenido: textos, enlaces, correo, WhatsApp
 public/brand/       logo principal, monograma y sticker del sello (vectores del manual)
 public/img/hero.jpg foto del banner
+public/docs/        lista de servicios y precios en PDF
 ```
 
 ## Editar el contenido
@@ -30,11 +31,18 @@ Todo está en `data/links.ts`:
 
 - **`pageUrl`:** dirección pública de esta página, usada en la URL canónica y en la imagen para compartir. Hoy es
   la URL temporal de Vercel; cámbiala cuando se conecte el dominio final.
-- **`mainSite`:** dominio del sitio principal. Los enlaces que empiezan con `/` (por ejemplo `/#servicios`) se
-  convierten en `https://www.doveralab.com/#servicios`.
+- **`mainSite`:** dominio del sitio principal. Los enlaces que empiezan con `/` (por ejemplo `/#contacto`) se
+  convierten en `https://www.doveralab.com/#contacto`. La excepción son los archivos de `/docs/`, que sirve esta misma
+  página.
 - **`contact.whatsapp`:** si se deja vacío, el botón lima dice "Escríbenos" y lleva al formulario del sitio principal.
-- **`items`:** los botones. Cada uno tiene `label`, `href`, `icon` (`send`, `grid`, `scan`, `pin`), `accent`
+- **`items`:** los botones. Cada uno tiene `label`, `href`, `icon` (`send`, `file`, `globe`, `pin`), `accent`
   (`coral`, `orange`, `lime`, `gray`) y una etiqueta opcional `tag`.
+
+### Lista de servicios y precios (PDF)
+
+El botón "Servicios y precios" abre `public/docs/servicios-y-precios.pdf`. Para actualizar los precios, reemplaza el
+archivo con el mismo nombre y abre un PR; el enlace no cambia. Mantenlo ligero (menos de 2–3 MB), porque se abre con
+datos móviles. El navegador interno de Instagram en Android no muestra PDFs: lo descarga o lo abre fuera de la app.
 
 La ruta `/links` redirige a `/` (308), por si alguien llega con la dirección anterior. La regla está en
 `next.config.mjs`.
