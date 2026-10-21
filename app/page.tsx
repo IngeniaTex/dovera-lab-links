@@ -66,6 +66,12 @@ export default function LinksPage() {
       <footer className={styles.footer}>
         <img src="/brand/monograma.svg" alt="" width={34} height={26} />
         <p className={styles.eyebrow}>{brand.craft}</p>
+        <div className={styles.legal}>
+          <p>{links.legal.copyright}</p>
+          <a className={styles.credit} href={links.legal.creditHref} {...newTab(links.legal.creditHref)}>
+            {links.legal.creditLabel}
+          </a>
+        </div>
       </footer>
     </main>
   );

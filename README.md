@@ -37,6 +37,7 @@ Todo está en `data/links.ts`:
 - **`contact.whatsapp`:** si se deja vacío, el botón lima dice "Escríbenos" y lleva al formulario del sitio principal.
 - **`items`:** los botones. Cada uno tiene `label`, `href`, `icon` (`send`, `file`, `globe`, `pin`), `accent`
   (`coral`, `orange`, `lime`, `gray`) y una etiqueta opcional `tag`.
+- **`legal`:** la letra pequeña del pie: el copyright (actualiza el año) y el crédito de Ingeniatex con su enlace.
 
 ### Lista de servicios y precios (PDF)
 
