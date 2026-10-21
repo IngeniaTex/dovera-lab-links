@@ -245,3 +245,32 @@
   align-items: center;
   gap: 10px;
 }
+
+/* Small print: copyright, then the credit underneath, both left-aligned. */
+.legal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--dv-line);
+  color: var(--dv-muted);
+  font-size: 9px;
+  line-height: 14px;
+  letter-spacing: 0.04em;
+}
+
+.credit {
+  text-underline-offset: 2px;
+}
+
+/* Beats `.page a { text-decoration: none }`. */
+.page .credit {
+  text-decoration: underline;
+}
+
+.credit:hover {
+  color: var(--dv-gray);
+}

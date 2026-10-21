@@ -44,4 +44,4 @@ No tests, no environment variables. TypeScript is pinned to 5.x because TypeScri
 - Lime CTA: 52px pill.
 - Link rows: 52px pill with a 1px `--dv-line` border, a 40px accent chip and an optional lime tag under the label.
 - Contact card: 1px border, radius 24.
-- Footer: monogram 34px plus the eyebrow.
+- Footer: monogram 34px plus the eyebrow, then 9px small print (`legal` in `data/links.ts`): copyright, then the Ingeniatex credit on its own line, both left-aligned; it sits just below the 844px fold.

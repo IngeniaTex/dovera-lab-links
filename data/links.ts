@@ -50,6 +50,13 @@ export const links = {
       accent: "gray",
     },
   ] as LinkItem[],
+
+  // Small print under the footer: copyright, then the developer credit underneath.
+  legal: {
+    copyright: "© 2026 Dôvera Lab | Derechos Reservados",
+    creditLabel: "Sitio creado por Ingeniatex",
+    creditHref: "https://www.ingeniatex.com",
+  },
 };
 
 /**
